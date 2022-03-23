@@ -6,7 +6,7 @@ import { delay } from 'rxjs/operators';
 import { Observable, Observer, Subscription } from 'rxjs';
 import { CanDeactivateComponent } from '../../shared/deactivation/can-deactivate.guard';
 import { Flight } from '../flight';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-flight-edit',
@@ -29,9 +29,9 @@ export class FlightEditComponent implements OnInit, OnDestroy, CanDeactivateComp
   constructor(private route: ActivatedRoute, private fb: FormBuilder, private router: Router) {
     this.editForm = this.fb.group({
       id: [1],
-      from: [''],
-      to: [''],
-      date: ['']
+      from: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
+      to: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
+      date: ['', [Validators.required, Validators.minLength(33), Validators.maxLength(33)]]
     });
   }
 
