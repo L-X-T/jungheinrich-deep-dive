@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { validateCity } from '../../shared/validation/city-validator';
 import { FlightService } from '../flight.service';
 import { validateAsyncCity } from '../../shared/validation/async-city-validator';
+import { validateRoundTrip } from '../../shared/validation/round-trip-validator';
 
 @Component({
   selector: 'app-flight-edit',
@@ -39,6 +40,8 @@ export class FlightEditComponent implements OnInit, OnDestroy, CanDeactivateComp
       ],
       date: ['', [Validators.required, Validators.minLength(33), Validators.maxLength(33)]]
     });
+
+    this.editForm.validator = validateRoundTrip;
   }
 
   ngOnInit(): void {
