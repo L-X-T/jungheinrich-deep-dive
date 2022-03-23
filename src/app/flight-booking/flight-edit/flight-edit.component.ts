@@ -33,10 +33,31 @@ export class FlightEditComponent implements OnInit, OnDestroy, CanDeactivateComp
   constructor(private route: ActivatedRoute, private flightService: FlightService, private fb: FormBuilder, private router: Router) {
     this.editForm = this.fb.group({
       id: [1],
-      from: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)], validateAsyncCity(this.flightService)],
+      from: [
+        '',
+        {
+          asyncValidators: validateAsyncCity(this.flightService),
+          validators: [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(15),
+          ],
+          updateOn: 'change'
+        },
+        []
+      ],
       to: [
         '',
-        [Validators.required, Validators.minLength(3), Validators.maxLength(15), validateCity(['Graz', 'Wien', 'Hamburg', 'Berlin'])]
+        {
+          validators: [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(15),
+            validateCity(['Graz', 'Wien', 'Hamburg', 'Berlin'])
+          ],
+          updateOn: 'blur'
+        },
+        []
       ],
       date: ['', [Validators.required, Validators.minLength(33), Validators.maxLength(33)]]
     });
@@ -104,6 +125,12 @@ export class FlightEditComponent implements OnInit, OnDestroy, CanDeactivateComp
   }
 
   save(): void {
+    if (this.editForm.invalid) {
+      this.editForm.markAllAsTouched();
+
+      return;
+    }
+
     this.flight = {
       ...this.flight,
       id: this.editForm.value.id,
