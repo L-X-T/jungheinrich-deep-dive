@@ -30,8 +30,14 @@ export class FlightEditComponent implements OnInit, OnDestroy, CanDeactivateComp
   constructor(private route: ActivatedRoute, private fb: FormBuilder, private router: Router) {
     this.editForm = this.fb.group({
       id: [1],
-      from: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15), validateCity]],
-      to: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15), validateCity]],
+      from: [
+        '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(15), validateCity(['Graz', 'Wien', 'Hamburg', 'Berlin'])]
+      ],
+      to: [
+        '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(15), validateCity(['Graz', 'Wien', 'Hamburg', 'Berlin'])]
+      ],
       date: ['', [Validators.required, Validators.minLength(33), Validators.maxLength(33)]]
     });
   }
