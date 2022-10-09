@@ -21,6 +21,11 @@ describe('Flight Search E2E Test', () => {
     cy.get('input[name=from]').clear().type('Wien');
     cy.get('input[name=to]').clear().type('Eisenstadt');
     cy.get('form .btn').click();
-    cy.get('flight-card').should('have.length', 3);
+
+    cy.get('flight-card').first().as('flight-card');
+    cy.get('@flight-card').find('> div').should('have.css', 'background-color', 'rgb(255, 255, 255)');
+    cy.get('@flight-card').contains('button', 'Select').click();
+    cy.get('@flight-card').contains('button', 'Select').should('not.exist');
+    cy.get('@flight-card').contains('button', 'Remove').should('exist');
   });
 });
