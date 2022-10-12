@@ -22,6 +22,8 @@
     <input formControlName="from" class="form-control">
   </div>
 
+  <div class="alert alert-warning" *ngIf="editForm.controls.from.pending" role="alert">Checking input ...</div>
+
   <flight-validation-errors [errors]="editForm.controls.from.errors" [fieldLabel]="'From'">
   </flight-validation-errors>
 
